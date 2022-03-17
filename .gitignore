@@ -1,0 +1,5 @@
+#игнорируемые GIT-ом файлы
+.idea/
+target/
+*.log
+*.class
