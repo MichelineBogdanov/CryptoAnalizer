@@ -12,7 +12,7 @@ public class InteractiveConsoleRunner {
             Result result = application.run(getParameters());
             System.out.println(result);
         } catch (ValidateExeption e) {
-            //TODO обработать ошибку не найденного файла
+            e.printStackTrace();
         }
     }
 
@@ -23,7 +23,7 @@ public class InteractiveConsoleRunner {
         if (choose.equals("1") || choose.equals("2")) {
             System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и ключ:");
             String data = scanner.nextLine();
-            String fullData = choose + data;
+            String fullData = choose + " " + data;
             return fullData.split(" ");
         } else if (choose.equals("3")) {
             System.out.println("Введите через пробел путь к исходному файлу и выходному файлу:");

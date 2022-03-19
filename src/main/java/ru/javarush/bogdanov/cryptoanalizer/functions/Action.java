@@ -4,6 +4,6 @@ import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 public interface Action {
 
-    Result execute();
+    Result execute(String[] datas);
 
 }
