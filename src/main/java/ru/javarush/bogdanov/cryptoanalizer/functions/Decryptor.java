@@ -14,23 +14,24 @@ public class Decryptor implements Action {
         String dest = datas[1];
         int key = Integer.parseInt(datas[2]);
         HashMap<Character, Character> mapa = makeMapa(key);
-        try (BufferedReader input = new BufferedReader(new FileReader(src), 10); BufferedWriter output = new BufferedWriter(new FileWriter(dest), 10)) {
-            char[] inputBuffer = new char[10];
-            char[] outputBuffer = new char[10];
-            while (input.read(inputBuffer) != -1) {
-                for (int i = 0; i < inputBuffer.length; i++) {
-                    if (mapa.containsKey(inputBuffer[i])) {
-                        outputBuffer[i] = mapa.get(inputBuffer[i]);
+        try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
+             BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
+            char[] buffer = new char[Constants.BUFFER_SIZE];
+            while (input.read(buffer) != -1) {
+                for (int i = 0; i < buffer.length; i++) {
+                    if (mapa.containsKey(buffer[i])) {
+                        buffer[i] = mapa.get(buffer[i]);
                     } else {
-                        outputBuffer[i] = inputBuffer[i];
+                        buffer[i] = buffer[i];
                     }
                 }
-                output.write(outputBuffer);
+                output.write(buffer);
+                output.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new Result("Операция выполнена!");
     }
 
     private HashMap<Character, Character> makeMapa(int key) {
