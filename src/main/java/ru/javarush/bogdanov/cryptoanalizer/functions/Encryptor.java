@@ -10,10 +10,13 @@ public class Encryptor implements Action {
 
     @Override
     public Result execute(String[] datas) {
+        //сохраняем данные из массива с данными в переменные
         String src = datas[0];
         String dest = datas[1];
         int key = Integer.parseInt(datas[2]);
+        //преобразовываем алфавит
         HashMap<Character, Character> mapa = makeMapa(key);
+        //читаем из файла данные, преобразовываем, записываем результат в файл
         try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
              BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
             char[] buffer = new char[Constants.BUFFER_SIZE];
@@ -34,6 +37,7 @@ public class Encryptor implements Action {
         return new Result("Операция выполнена!");
     }
 
+    //составляем карту-преобразователь алфавита
     private HashMap<Character, Character> makeMapa(int key) {
         HashMap<Character, Character> result = new HashMap<>();
         char[] alphabetForMapa = Constants.ALPHABET.toCharArray();

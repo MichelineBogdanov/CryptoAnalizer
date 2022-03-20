@@ -1,10 +1,8 @@
 package ru.javarush.bogdanov.cryptoanalizer.controller;
 
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.functions.*;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class Controller {

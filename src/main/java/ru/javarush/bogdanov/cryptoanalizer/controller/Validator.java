@@ -20,7 +20,7 @@ public class Validator {
                 throw new ValidateExeption("Не удалось создать отсутствующий выходной файл!");
             }
         }
-        if (Integer.parseInt(datas[2]) > Constants.ALPHABET.length()) {
+        if ((datas.length > 2) && (Integer.parseInt(datas[2]) > Constants.ALPHABET.length())) {
             datas[2] = Integer.toString(Integer.parseInt(datas[2]) % Constants.ALPHABET.length());
         }
     }
