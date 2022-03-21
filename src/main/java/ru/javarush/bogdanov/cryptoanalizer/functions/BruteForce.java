@@ -4,7 +4,6 @@ import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

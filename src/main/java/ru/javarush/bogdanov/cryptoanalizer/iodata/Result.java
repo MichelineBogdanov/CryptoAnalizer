@@ -10,8 +10,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return "Result{" +
-                "exitCode='" + exitCode + '\'' +
-                '}';
+        return exitCode;
     }
 }
