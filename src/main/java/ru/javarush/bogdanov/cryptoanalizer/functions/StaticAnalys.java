@@ -19,19 +19,10 @@ public class StaticAnalys implements Action {
         String dictionary = datas[2];
         //анализируем исходник и словарь
         HashMap<Character, Integer> analiseMapFromSrc = textAnalise(src);
-        for (Map.Entry<Character, Integer> characterIntegerEntry : analiseMapFromSrc.entrySet()) {
-            System.out.print(characterIntegerEntry + ", ");
-        }
-        System.out.println("---------------------------");
         HashMap<Character, Integer> analiseMapFromDictionary = textAnalise(dictionary);
-        for (Map.Entry<Character, Integer> characterIntegerEntry : analiseMapFromDictionary.entrySet()) {
-            System.out.print(characterIntegerEntry + ", ");
-        }
         //сортируем полученные данные
         ArrayList<Character> sortesSrc = sortMapa(analiseMapFromSrc);
-        System.out.println(sortesSrc);
         ArrayList<Character> sortesDictionary = sortMapa(analiseMapFromDictionary);
-        System.out.println(sortesDictionary);
         //получаем словарь для преобразования текста
         HashMap<Character, Character> textDictionary = makeCharMapa(sortesSrc, sortesDictionary);
         //читаем из файла данные, преобразовываем, записываем результат в файл
