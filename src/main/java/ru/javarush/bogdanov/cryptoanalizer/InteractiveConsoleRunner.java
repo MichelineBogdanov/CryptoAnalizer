@@ -20,6 +20,7 @@ public class InteractiveConsoleRunner {
     }
 
     //C:\Users\qqMik\Desktop\src.txt C:\Users\qqMik\Desktop\dest.txt 4
+    //C:\Users\qqMik\Desktop\src.txt C:\Users\qqMik\Desktop\dest.txt C:\Users\qqMik\Desktop\whiteguard.txt
 
     private static Input getParameters() {
         Validator validator = new Validator();

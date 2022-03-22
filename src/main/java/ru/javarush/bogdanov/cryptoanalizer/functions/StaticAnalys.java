@@ -1,5 +1,6 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
+import org.w3c.dom.ls.LSOutput;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
@@ -18,12 +19,21 @@ public class StaticAnalys implements Action {
         String dictionary = datas[2];
         //анализируем исходник и словарь
         HashMap<Character, Integer> analiseMapFromSrc = textAnalise(src);
+        for (Map.Entry<Character, Integer> characterIntegerEntry : analiseMapFromSrc.entrySet()) {
+            System.out.print(characterIntegerEntry + ", ");
+        }
+        System.out.println("---------------------------");
         HashMap<Character, Integer> analiseMapFromDictionary = textAnalise(dictionary);
+        for (Map.Entry<Character, Integer> characterIntegerEntry : analiseMapFromDictionary.entrySet()) {
+            System.out.print(characterIntegerEntry + ", ");
+        }
         //сортируем полученные данные
         ArrayList<Character> sortesSrc = sortMapa(analiseMapFromSrc);
+        System.out.println(sortesSrc);
         ArrayList<Character> sortesDictionary = sortMapa(analiseMapFromDictionary);
+        System.out.println(sortesDictionary);
         //получаем словарь для преобразования текста
-        HashMap<Character, Character> textDictionary = makeCharMapa(sortesDictionary, sortesSrc);
+        HashMap<Character, Character> textDictionary = makeCharMapa(sortesSrc, sortesDictionary);
         //читаем из файла данные, преобразовываем, записываем результат в файл
         try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
              BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
@@ -91,10 +101,10 @@ public class StaticAnalys implements Action {
     }
 
     //составляем из двух линкед мап словарь для перевода текста
-    private HashMap<Character, Character> makeCharMapa(ArrayList<Character> mapaDictionary, ArrayList<Character> mapaSrc) {
+    private HashMap<Character, Character> makeCharMapa(ArrayList<Character> mapaSrc, ArrayList<Character> mapaDictionary) {
         HashMap<Character, Character> result = new HashMap<>();
         for (int i = 0; i < mapaDictionary.size(); i++) {
-            result.put(mapaDictionary.get(i), mapaSrc.get(i));
+            result.put(mapaSrc.get(i), mapaDictionary.get(i));
         }
         return result;
     }
