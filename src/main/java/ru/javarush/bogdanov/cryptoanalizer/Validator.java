@@ -38,4 +38,9 @@ public class Validator {
         }
         return false;
     }
+
+    //проверяем существование словаря
+    public boolean validateDictionary(Input input) {
+        return Files.notExists(Path.of(input.data[2]));
+    }
 }

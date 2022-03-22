@@ -34,7 +34,7 @@ public class InteractiveConsoleRunner {
                 case "1":
                 case "2": {
                     do {
-                        System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и ключ (от 1 до " + Constants.ALPHABET.length() + "):");
+                        System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и ключ (число от 1 до " + Constants.ALPHABET.length() + "):");
                         data = scanner.nextLine();
                         result = new Input(choose, data.split(" "));
                     } while (validator.validateSrc(result) || validator.validateDest(result) || validator.validateKey(result));
@@ -52,7 +52,7 @@ public class InteractiveConsoleRunner {
                     data = scanner.nextLine();
                     do {
                         result = new Input(choose, data.split(" "));
-                    } while (validator.validateSrc(result) || validator.validateDest(result));
+                    } while (validator.validateSrc(result) || validator.validateDest(result) || validator.validateDictionary(result));
                     return result;
                 }
                 case "5":
