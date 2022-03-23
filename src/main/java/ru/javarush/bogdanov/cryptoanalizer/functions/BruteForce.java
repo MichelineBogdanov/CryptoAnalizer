@@ -18,7 +18,7 @@ public class BruteForce implements Action {
         //сохраняем данные из массива с данными в переменные
         String src = datas[0];
         String dest = datas[1];
-        //проверять будем по трем условиям: 1 - n(а._А) == n(.) +/- 50%; 2 - n(а,_а) == n(,) +/- 50%; 3 - n(_) == n(слов) +/- 50%
+        //проверять будем по трем условиям: 1 - максимум n(а._А); 2 - максимум n(а,_а); 3 - максимум n(_)
         int[][] analys = new int[Constants.ALPHABET.length()][3];
         //прозодимся по всем ключам, используя тот код, что и для расшифровки
         for (int key = 0; key < Constants.ALPHABET.length(); key++) {
