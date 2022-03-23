@@ -1,11 +1,10 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
-import org.w3c.dom.ls.LSOutput;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,8 @@ public class StaticAnalys implements Action {
         try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
              BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
             char[] buffer = new char[Constants.BUFFER_SIZE];
-            while (input.read(buffer) != -1) {
+            while (input.ready()) {
+                int real = input.read(buffer);
                 for (int i = 0; i < buffer.length; i++) {
                     if (textDictionary.containsKey(buffer[i])) {
                         buffer[i] = textDictionary.get(buffer[i]);
@@ -37,11 +37,11 @@ public class StaticAnalys implements Action {
                         buffer[i] = buffer[i];
                     }
                 }
-                output.write(buffer);
-                output.flush();
+                output.write(buffer, 0, real);
             }
+            output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ValidateExeption("Не удалось выполнить статистический анализ(((");
         }
         return new Result("Операция выполнена!");
     }
@@ -57,9 +57,9 @@ public class StaticAnalys implements Action {
         try (BufferedReader input = new BufferedReader(new FileReader(pathToFile), Constants.BUFFER_SIZE)) {
             char[] buffer = new char[Constants.BUFFER_SIZE];
             while (input.read(buffer) != -1) {
-                for (int i = 0; i < buffer.length; i++) {
-                    if (mapa.containsKey(buffer[i])) {
-                        mapa.put(buffer[i], mapa.get(buffer[i]) + 1);
+                for (char c : buffer) {
+                    if (mapa.containsKey(c)) {
+                        mapa.put(c, mapa.get(c) + 1);
                     }
                 }
             }

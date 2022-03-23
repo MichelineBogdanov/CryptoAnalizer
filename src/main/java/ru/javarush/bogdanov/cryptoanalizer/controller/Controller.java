@@ -12,7 +12,7 @@ public class Controller {
             case "2" -> new Decryptor();
             case "3" -> new BruteForce();
             case "4" -> new StaticAnalys();
-            case "5" -> new Exit();
+            case "exit" -> new Exit();
             default -> null;
         };
         return result.execute(input.data);

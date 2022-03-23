@@ -5,7 +5,6 @@ import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Input;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class InteractiveConsoleRunner {
@@ -14,7 +13,7 @@ public class InteractiveConsoleRunner {
         try {
             Result result = application.run(getParameters());
             System.out.println(result);
-        } catch (ValidateExeption | IOException e) {
+        } catch (ValidateExeption e) {
             System.out.println(e.getMessage());
         }
     }
@@ -27,7 +26,7 @@ public class InteractiveConsoleRunner {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Приложение запущено!");
         while (true) {
-            System.out.println("Выберите действие (1 - Encrypt, 2 - Decrypt, 3 - Brute force, 4 - Static analys, 5 - Выход):");
+            System.out.println("Выберите действие (1 - Encrypt, 2 - Decrypt, 3 - Brute force, 4 - Static analys, exit - Выход):");
             String choose = scanner.nextLine();
             String data;
             Input result;
@@ -37,26 +36,35 @@ public class InteractiveConsoleRunner {
                     do {
                         System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и ключ (число от 1 до " + Constants.ALPHABET.length() + "):");
                         data = scanner.nextLine();
-                        result = new Input(choose, data.split(" "));
-                    } while (validator.validateSrc(result) || validator.validateDest(result) || validator.validateKey(result));
+                        if (data.equals("exit")) {
+                            return new Input("exit");
+                        } else
+                            result = new Input(choose, data.split(" "));
+                    } while (validator.validateDecryptorEncryptor(result));
                     return result;
                 }
                 case "3":
                     do {
                         System.out.println("Введите через пробел путь к исходному файлу и выходному файлу:");
                         data = scanner.nextLine();
-                        result = new Input(choose, data.split(" "));
-                    } while (validator.validateSrc(result) || validator.validateDest(result));
+                        if (data.equals("exit")) {
+                            return new Input("exit");
+                        } else
+                            result = new Input(choose, data.split(" "));
+                    } while (validator.validateBruteForce(result));
                     return result;
                 case "4": {
-                    System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и словарю:");
-                    data = scanner.nextLine();
                     do {
-                        result = new Input(choose, data.split(" "));
-                    } while (validator.validateSrc(result) || validator.validateDest(result) || validator.validateDictionary(result));
+                        System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и словарю:");
+                        data = scanner.nextLine();
+                        if (data.equals("exit")) {
+                            return new Input("exit");
+                        } else
+                            result = new Input(choose, data.split(" "));
+                    } while (validator.validateStaticAnalyser(result));
                     return result;
                 }
-                case "5":
+                case "exit":
                     return new Input(choose);
                 default: {
                     System.out.println("Неизвестная команда, попробуйте еще раз");

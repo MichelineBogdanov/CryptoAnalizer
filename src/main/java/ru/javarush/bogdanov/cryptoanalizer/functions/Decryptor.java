@@ -1,6 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
@@ -20,7 +21,8 @@ public class Decryptor implements Action {
         try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
              BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
             char[] buffer = new char[Constants.BUFFER_SIZE];
-            while (input.read(buffer) != -1) {
+            while (input.ready()) {
+                int real = input.read(buffer);
                 for (int i = 0; i < buffer.length; i++) {
                     if (mapa.containsKey(buffer[i])) {
                         buffer[i] = mapa.get(buffer[i]);
@@ -28,11 +30,11 @@ public class Decryptor implements Action {
                         buffer[i] = buffer[i];
                     }
                 }
-                output.write(buffer);
-                output.flush();
+                output.write(buffer, 0, real);
             }
+            output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ValidateExeption("Не удалось выполнить шифрование(((");
         }
         return new Result("Операция выполнена!");
     }

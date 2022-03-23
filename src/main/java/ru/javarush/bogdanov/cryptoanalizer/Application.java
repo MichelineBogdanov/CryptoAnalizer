@@ -4,8 +4,6 @@ import ru.javarush.bogdanov.cryptoanalizer.controller.Controller;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Input;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
-import java.io.IOException;
-
 public class Application {
 
     private final Controller controller;
@@ -14,7 +12,7 @@ public class Application {
         this.controller = new Controller();
     }
 
-    public Result run(Input input) throws IOException {
+    public Result run(Input input) {
         return controller.run(input);
     }
 }

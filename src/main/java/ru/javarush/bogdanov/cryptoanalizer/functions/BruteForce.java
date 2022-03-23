@@ -1,6 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
@@ -17,9 +18,8 @@ public class BruteForce implements Action {
         //сохраняем данные из массива с данными в переменные
         String src = datas[0];
         String dest = datas[1];
-        //проверять будем по трем условиям: 1 - n(а._А) == n(.) +/- 5%; 2 - n(а,_а) == n(,) +/- 5%; 3 - n(_) == n(слов) +/- 5%
+        //проверять будем по трем условиям: 1 - n(а._А) == n(.) +/- 50%; 2 - n(а,_а) == n(,) +/- 50%; 3 - n(_) == n(слов) +/- 50%
         int[][] analys = new int[Constants.ALPHABET.length()][3];
-        int[][] checkAnalysArray = new int[Constants.ALPHABET.length()][3];
         //прозодимся по всем ключам, используя тот код, что и для расшифровки
         for (int key = 0; key < Constants.ALPHABET.length(); key++) {
             //преобразовываем алфавит
@@ -36,16 +36,15 @@ public class BruteForce implements Action {
                         }
                     }
                     makeAnaliticForKey(analys, buffer, key);
-                    checkAnalys(checkAnalysArray, buffer, key);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new ValidateExeption("Не удалось выполнить Brute force(((");
             }
         }
         String[] newData = new String[3];
         newData[0] = src;
         newData[1] = dest;
-        newData[2] = String.valueOf(getKeyFromAnalys(analys, checkAnalysArray));
+        newData[2] = String.valueOf(getKeyFromAnalys(analys));
         return decryptor.execute(newData);
     }
 
@@ -64,7 +63,7 @@ public class BruteForce implements Action {
     //метод, собирающий аналитику данных текущего ключа
     private void makeAnaliticForKey(int[][] analysArray, char[] buffer, int key) {
         String str = new String(buffer);
-        String[] regEx = new String[]{"[а-яa-z]. {1,}[-А-ЯA-Z\\[]", "[а-яa-z], {1,}[-а-яa-z\\[]", " {1,}"};
+        String[] regEx = new String[]{"[а-яa-z][!?.] {1,}[-А-ЯA-Z]", "[а-яa-z], {1,}[-а-яa-z]", " {1,}"};
         for (int i = 0; i < regEx.length; i++) {
             Pattern pattern = Pattern.compile(regEx[i]);
             Matcher matcher = pattern.matcher(str);
@@ -76,36 +75,21 @@ public class BruteForce implements Action {
         }
     }
 
-    private void checkAnalys(int[][] checkAnalysArray, char[] buffer, int key) {
-        String str = new String(buffer);
-        String[] regEx = new String[]{"\\.{1}", ",{1}"};
-        for (int i = 0; i < regEx.length; i++) {
-            Pattern pattern = Pattern.compile(regEx[i]);
-            Matcher matcher = pattern.matcher(str);
-            int count = 0;
-            while (matcher.find()) {
-                count++;
-            }
-            checkAnalysArray[key][i] += count;
-        }
-        checkAnalysArray[key][2] += str.split(" {1,}").length;
-    }
-
     //получаем ключ из анализа
-    private int getKeyFromAnalys(int[][] analys, int[][] checkAnalysArray) {
-        int[] result = new int[analys.length];
-        int maxIndex = -1;
+    private int getKeyFromAnalys(int[][] analys) {
+        int[] resultValue = new int[]{-1, -1, -1};
+        int[] resultIndex = new int[]{-1, -1, -1};
         for (int i = 0; i < analys.length; i++) {
             for (int k = 0; k < analys[i].length; k++) {
-                if ((checkAnalysArray[i][k] > analys[i][k] * 0.5) && (checkAnalysArray[i][k] < analys[i][k] * 2)) {
-                    result[i]++;
+                if (analys[i][k] > resultValue[k]) {
+                    resultValue[k] = analys[i][k];
+                    resultIndex[k] = i;
                 }
             }
-            if (result[i] == 3) {
-                maxIndex = i;
-            }
         }
-        return maxIndex;
+        if (resultIndex[0] == resultIndex[1] && resultIndex[0] == resultIndex[2]) {
+            return resultIndex[0];
+        }
+        return -1;
     }
-
 }
