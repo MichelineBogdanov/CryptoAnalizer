@@ -1,7 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer;
 
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Input;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
@@ -13,7 +13,7 @@ public class InteractiveConsoleRunner {
         try {
             Result result = application.run(getParameters());
             System.out.println(result);
-        } catch (ValidateExeption e) {
+        } catch (ValidateException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -34,7 +34,7 @@ public class InteractiveConsoleRunner {
                 case "1":
                 case "2": {
                     do {
-                        System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и ключ (число от 1 до " + Constants.ALPHABET.length() + "):");
+                        System.out.printf("Введите через пробел путь к исходному файлу, выходному файлу и ключ (число от 1 до %d):%n", Constants.ALPHABET.length());
                         data = scanner.nextLine();
                         if (data.equals("exit")) {
                             return new Input("exit");

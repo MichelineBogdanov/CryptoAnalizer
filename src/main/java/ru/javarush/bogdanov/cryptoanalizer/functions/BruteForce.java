@@ -1,7 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
@@ -11,7 +11,11 @@ import java.util.regex.Pattern;
 
 public class BruteForce implements Action {
 
-    Decryptor decryptor = new Decryptor();
+    Decryptor decryptor;
+
+    public BruteForce(Decryptor decryptor) {
+        this.decryptor = decryptor;
+    }
 
     @Override
     public Result execute(String[] datas) {
@@ -31,14 +35,12 @@ public class BruteForce implements Action {
                     for (int i = 0; i < buffer.length; i++) {
                         if (mapa.containsKey(buffer[i])) {
                             buffer[i] = mapa.get(buffer[i]);
-                        } else {
-                            buffer[i] = buffer[i];
                         }
                     }
                     makeAnaliticForKey(analys, buffer, key);
                 }
             } catch (IOException e) {
-                throw new ValidateExeption("Не удалось выполнить Brute force(((");
+                throw new ValidateException("Не удалось выполнить Brute force(((");
             }
         }
         String[] newData = new String[3];

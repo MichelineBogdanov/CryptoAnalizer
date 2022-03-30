@@ -1,13 +1,18 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
+import ru.javarush.bogdanov.cryptoanalizer.HelpClass;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
-import java.io.*;
 import java.util.HashMap;
 
 public class Encryptor implements Action {
+
+    HelpClass readerWriter;
+
+    public Encryptor(HelpClass readerWriter) {
+        this.readerWriter = readerWriter;
+    }
 
     @Override
     public Result execute(String[] datas) {
@@ -18,24 +23,7 @@ public class Encryptor implements Action {
         //преобразовываем алфавит
         HashMap<Character, Character> mapa = makeMapa(key);
         //читаем из файла данные, преобразовываем, записываем результат в файл
-        try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
-             BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
-            char[] buffer = new char[Constants.BUFFER_SIZE];
-            while (input.ready()) {
-                int real = input.read(buffer);
-                for (int i = 0; i < buffer.length; i++) {
-                    if (mapa.containsKey(buffer[i])) {
-                        buffer[i] = mapa.get(buffer[i]);
-                    } else {
-                        buffer[i] = buffer[i];
-                    }
-                }
-                output.write(buffer, 0, real);
-            }
-            output.flush();
-        } catch (IOException e) {
-            throw new ValidateExeption("Не удалось выполнить расшифровку(((");
-        }
+        readerWriter.readWriteToFile(src, dest, mapa);
         return new Result("Операция выполнена!");
     }
 

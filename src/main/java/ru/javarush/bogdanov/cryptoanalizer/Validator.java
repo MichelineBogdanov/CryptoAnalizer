@@ -1,7 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer;
 
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Input;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class Validator {
             try {
                 Files.createFile(Path.of(input.data[1]));
             } catch (IOException e) {
-                throw new ValidateExeption("Не удалось создать отсутствующий выходной файл!");
+                throw new ValidateException("Не удалось создать отсутствующий выходной файл!");
             }
         }
         return false;

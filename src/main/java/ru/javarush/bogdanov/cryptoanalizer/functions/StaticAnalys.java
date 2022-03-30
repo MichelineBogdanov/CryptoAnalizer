@@ -1,7 +1,8 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
+import ru.javarush.bogdanov.cryptoanalizer.HelpClass;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
-import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateExeption;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.io.*;
@@ -9,6 +10,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StaticAnalys implements Action {
+
+    HelpClass readerWriter;
+
+    public StaticAnalys(HelpClass readerWriter) {
+        this.readerWriter = readerWriter;
+    }
 
     @Override
     public Result execute(String[] datas) {
@@ -25,24 +32,7 @@ public class StaticAnalys implements Action {
         //получаем словарь для преобразования текста
         HashMap<Character, Character> textDictionary = makeCharMapa(sortesSrc, sortesDictionary);
         //читаем из файла данные, преобразовываем, записываем результат в файл
-        try (BufferedReader input = new BufferedReader(new FileReader(src), Constants.BUFFER_SIZE);
-             BufferedWriter output = new BufferedWriter(new FileWriter(dest), Constants.BUFFER_SIZE)) {
-            char[] buffer = new char[Constants.BUFFER_SIZE];
-            while (input.ready()) {
-                int real = input.read(buffer);
-                for (int i = 0; i < buffer.length; i++) {
-                    if (textDictionary.containsKey(buffer[i])) {
-                        buffer[i] = textDictionary.get(buffer[i]);
-                    } else {
-                        buffer[i] = buffer[i];
-                    }
-                }
-                output.write(buffer, 0, real);
-            }
-            output.flush();
-        } catch (IOException e) {
-            throw new ValidateExeption("Не удалось выполнить статистический анализ(((");
-        }
+        readerWriter.readWriteToFile(src, dest, textDictionary);
         return new Result("Операция выполнена!");
     }
 
@@ -78,7 +68,7 @@ public class StaticAnalys implements Action {
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (a, b) -> {
-                            throw new AssertionError();
+                            throw new ValidateException("Не удалось отсортировать словарь/исходный текст");
                         },
                         LinkedHashMap::new
                 ));
