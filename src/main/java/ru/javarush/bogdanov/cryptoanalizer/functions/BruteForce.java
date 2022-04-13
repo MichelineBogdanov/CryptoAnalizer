@@ -13,8 +13,8 @@ public class BruteForce implements Action {
 
     Decryptor decryptor;
 
-    public BruteForce(Decryptor decryptor) {
-        this.decryptor = decryptor;
+    public BruteForce() {
+        this.decryptor = new Decryptor();
     }
 
     @Override

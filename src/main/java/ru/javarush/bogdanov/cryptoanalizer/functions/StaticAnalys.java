@@ -1,6 +1,5 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
-import ru.javarush.bogdanov.cryptoanalizer.HelpClass;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
 import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
@@ -10,12 +9,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StaticAnalys implements Action {
-
-    HelpClass readerWriter;
-
-    public StaticAnalys(HelpClass readerWriter) {
-        this.readerWriter = readerWriter;
-    }
 
     @Override
     public Result execute(String[] datas) {
@@ -32,7 +25,7 @@ public class StaticAnalys implements Action {
         //получаем словарь для преобразования текста
         HashMap<Character, Character> textDictionary = makeCharMapa(sortesSrc, sortesDictionary);
         //читаем из файла данные, преобразовываем, записываем результат в файл
-        readerWriter.readWriteToFile(src, dest, textDictionary);
+        readWriteToFile(src, dest, textDictionary);
         return new Result("Операция выполнена!");
     }
 

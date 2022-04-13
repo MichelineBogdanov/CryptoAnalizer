@@ -1,18 +1,11 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
-import ru.javarush.bogdanov.cryptoanalizer.HelpClass;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.util.HashMap;
 
 public class Encryptor implements Action {
-
-    HelpClass readerWriter;
-
-    public Encryptor(HelpClass readerWriter) {
-        this.readerWriter = readerWriter;
-    }
 
     @Override
     public Result execute(String[] datas) {
@@ -23,7 +16,7 @@ public class Encryptor implements Action {
         //преобразовываем алфавит
         HashMap<Character, Character> mapa = makeMapa(key);
         //читаем из файла данные, преобразовываем, записываем результат в файл
-        readerWriter.readWriteToFile(src, dest, mapa);
+        readWriteToFile(src, dest, mapa);
         return new Result("Операция выполнена!");
     }
 

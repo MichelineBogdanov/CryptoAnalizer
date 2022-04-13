@@ -48,7 +48,7 @@ public class Validator {
     //проверяем существование исходного файла
     private boolean validateFilePath(String inputPath) {
         if (Files.notExists(Path.of(inputPath))) {
-            System.out.println("Какого-то файла не существует (исходного либо словаря у static analys)!");
+            System.out.println("Какого-то файла не существует!");
             return true;
         }
         return false;

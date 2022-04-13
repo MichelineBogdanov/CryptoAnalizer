@@ -26,13 +26,13 @@ public class InteractiveConsoleRunner {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Приложение запущено!");
         while (true) {
-            System.out.println("Выберите действие (1 - Encrypt, 2 - Decrypt, 3 - Brute force, 4 - Static analys, exit - Выход):");
+            System.out.println("Выберите действие (Encrypt, Decrypt, BruteForce, StaticАnalys, exit - Выход):");
             String choose = scanner.nextLine();
             String data;
             Input result;
             switch (choose) {
-                case "1":
-                case "2": {
+                case "Encrypt":
+                case "Decrypt": {
                     do {
                         System.out.printf("Введите через пробел путь к исходному файлу, выходному файлу и ключ (число от 1 до %d):%n", Constants.ALPHABET.length());
                         data = scanner.nextLine();
@@ -43,7 +43,7 @@ public class InteractiveConsoleRunner {
                     } while (validator.validateDecryptorEncryptor(result));
                     return result;
                 }
-                case "3":
+                case "BruteForce":
                     do {
                         System.out.println("Введите через пробел путь к исходному файлу и выходному файлу:");
                         data = scanner.nextLine();
@@ -53,7 +53,7 @@ public class InteractiveConsoleRunner {
                             result = new Input(choose, data.split(" "));
                     } while (validator.validateBruteForce(result));
                     return result;
-                case "4": {
+                case "StaticАnalys": {
                     do {
                         System.out.println("Введите через пробел путь к исходному файлу, выходному файлу и словарю:");
                         data = scanner.nextLine();
