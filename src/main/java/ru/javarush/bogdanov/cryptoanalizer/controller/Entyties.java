@@ -7,7 +7,7 @@ public enum Entyties {
     ENCRYPT(new Encryptor()),
     DECRYPT(new Decryptor()),
     BRUTEFORCE(new BruteForce()),
-    STATICАNALYS(new StaticAnalys()),
+    ANALYSE(new StaticAnalys()),
     EXIT(new Exit());
 
     private final Action action;
