@@ -1,11 +1,16 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
+import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
 
 import java.util.HashMap;
 
 public class Decryptor implements Action {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(Decryptor.class);
 
     @Override
     public Result execute(String[] datas) {
@@ -25,9 +30,14 @@ public class Decryptor implements Action {
         HashMap<Character, Character> result = new HashMap<>();
         char[] alphabetForMapa = Constants.ALPHABET.toCharArray();
         for (int i = 0; i < alphabetForMapa.length; i++) {
-            Character keyForMapa = alphabetForMapa[(i + key) % alphabetForMapa.length];
-            Character valueForMapa = alphabetForMapa[i];
-            result.put(keyForMapa, valueForMapa);
+            try {
+                Character keyForMapa = alphabetForMapa[(i + key) % alphabetForMapa.length];
+                Character valueForMapa = alphabetForMapa[i];
+                result.put(keyForMapa, valueForMapa);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                LOGGER.error("ОШИБКА!!! {}", e.getClass());
+                throw new ValidateException("Не получилось найти ключ(((");
+            }
         }
         return result;
     }

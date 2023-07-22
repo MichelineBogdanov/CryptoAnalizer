@@ -1,5 +1,7 @@
 package ru.javarush.bogdanov.cryptoanalizer.functions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.javarush.bogdanov.cryptoanalizer.constants.Constants;
 import ru.javarush.bogdanov.cryptoanalizer.exeptions.ValidateException;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
@@ -12,6 +14,8 @@ import java.util.regex.Pattern;
 public class BruteForce implements Action {
 
     Decryptor decryptor;
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(BruteForce.class);
 
     public BruteForce() {
         this.decryptor = new Decryptor();
@@ -40,7 +44,9 @@ public class BruteForce implements Action {
                     makeAnaliticForKey(analys, buffer, key);
                 }
             } catch (IOException e) {
-                throw new ValidateException("Не удалось выполнить Brute force(((");
+                ValidateException validateException = new ValidateException("Не удалось выполнить Brute force(((");
+                LOGGER.error("ОШИБКА!!!/n {}/n TRACE:/n {}/n", validateException.getClass(), validateException.getStackTrace());
+                throw validateException;
             }
         }
         String[] newData = new String[3];
@@ -90,6 +96,7 @@ public class BruteForce implements Action {
             }
         }
         if (resultIndex[0] == resultIndex[1] && resultIndex[0] == resultIndex[2]) {
+            LOGGER.info("Удалось найти ключ {}", resultIndex[0]);
             return resultIndex[0];
         }
         return -1;

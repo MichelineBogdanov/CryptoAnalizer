@@ -2,6 +2,8 @@ package ru.javarush.bogdanov.cryptoanalizer.view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.javarush.bogdanov.cryptoanalizer.Application;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Input;
 import ru.javarush.bogdanov.cryptoanalizer.iodata.Result;
@@ -12,6 +14,8 @@ import java.io.*;
 import java.util.Objects;
 
 public class SwingForm extends JFrame {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwingForm.class);
     private JPanel mainPanel;
     private JPanel center;
     private JPanel south;
@@ -47,8 +51,9 @@ public class SwingForm extends JFrame {
 
     public SwingForm() {
 
-        setScreenSize();
+        LOGGER.debug("Начало инициализации интерфейса");
 
+        setScreenSize();
         setWrapToTextArea();
 
         String[] operations = {"Encrypt", "Decrypt", "BruteForce", "Analyse"};
@@ -159,6 +164,7 @@ public class SwingForm extends JFrame {
             String replace = new String(destCharArray);
             destTextArea.setText(replace);
         });
+        LOGGER.debug("Конец инициализации интерфейса");
     }
 
     private void setWrapToTextArea() {
@@ -177,6 +183,7 @@ public class SwingForm extends JFrame {
     }
 
     private void chooseFile(JTextField textField, JTextArea textArea) {
+        LOGGER.info("Запущена процедура выбора файла");
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
@@ -196,6 +203,7 @@ public class SwingForm extends JFrame {
     }
 
     private void saveFile(JTextField textField, JTextArea textArea) {
+        LOGGER.info("Запущена процедура сохранения файла");
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
@@ -313,5 +321,4 @@ public class SwingForm extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
-
 }
